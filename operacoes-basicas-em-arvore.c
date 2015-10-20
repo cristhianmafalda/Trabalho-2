@@ -39,6 +39,26 @@ void add(struct arvore*no, int chave){			//add é a função que adiciona um valor 
 
 }
 
+void localiza(struct arvore*no, int busca){
+	
+	int i=0;
+	while(no!=NULL){
+		if (no->key==busca){
+			i=1;
+		}
+		else if (busca>no->key){
+			localiza(no->dir,busca);
+		}
+		else localiza(no->esq,busca);
+	}
+	if(i==0){
+		printf("\nO valor buscado n%co existe\n",198);
+	}
+	else {
+		printf("\nO valor buscado existe\n");
+	}
+}
+
 void emordem(struct arvore*no){					// em ordem é uma função que imprime os valores da arvore de maneira ordenada
 	if(no!=NULL){
 		emordem(no->esq);						//busca os menores para imprimir
@@ -72,9 +92,6 @@ void labelledbracketing(struct arvore*no){
 	}
 	printf("]");
 }
-
-
-
 
 void main () {
 	
@@ -124,7 +141,9 @@ void main () {
 		}
 		
 		if (opcao == 3){
-			
+			printf("\nDigite o valor buscado: ");
+			scanf("%d",&chave);
+			localiza(raiz,chave);
 		}
 		
 		if (opcao == 4){
@@ -148,9 +167,6 @@ void main () {
 		}
 
 	}
-	
-
-	
 	
 getch();	
 }
