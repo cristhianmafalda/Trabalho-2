@@ -47,14 +47,42 @@ void emordem(struct arvore*no){					// em ordem é uma função que imprime os valo
 	}
 }
 
+void preordem(struct arvore*no){					
+	if(no!=NULL){
+		printf("%d ",no->key);
+		preordem(no->esq);
+		preordem(no->dir);																
+	}
+}
+
+void posordem(struct arvore*no){					
+	if(no!=NULL){	
+		posordem(no->esq);
+		posordem(no->dir);
+		printf("%d ",no->key);																
+	}
+}
+
+void labelledbracketing(struct arvore*no){					
+	printf("[");
+	if(no!=NULL){
+		printf("%d",no->key);
+		labelledbracketing(no->esq);
+		labelledbracketing(no->dir);																
+	}
+	printf("]");
+}
+
+
+
+
 void main () {
 	
+	printf("Digite a quantidade inicial de valores a ser digitado.\nEm seguida, insira os valores.\n\n");
 	int n,i,chave;
 	scanf("%d",&n);
 	
 	if(n>0){
-		
-		printf("Digite a quantidade inicial de valores a ser digitado.Em seguida, insira os valores.\n");
 		
 		struct arvore*raiz = (struct arvore*) malloc(sizeof(struct arvore));
 		scanf("%d",&chave);
@@ -71,14 +99,54 @@ void main () {
 		printf("\nOp%c%co 1: Inser%c%co",135,198,135,198);
 		printf("\nOp%c%co 2: Remo%c%co",135,198,135,198);
 		printf("\nOp%c%co 3: Busca",135,198);
-		printf("\nOp%c%co 4: Impress%co em 'Pr%c Ordem'",135,198,198,130);
-		printf("\nOp%c%co 5: Impress%co em 'Em Ordem'",135,198,198);
-		printf("\nOp%c%co 6: Impress%co em 'P%cs Ordem'",135,198,198,162);
-		printf("\nOp%c%co 7: Impress%co em 'Labelled Bracketing'",135,198,198);
-		printf("\nOp%c%co 0: Sair",135,198);
+		printf("\nOp%c%co 4: Impress%co Pr%c Ordem",135,198,198,130);
+		printf("\nOp%c%co 5: Impress%co Em Ordem",135,198,198);
+		printf("\nOp%c%co 6: Impress%co P%cs Ordem",135,198,198,162);
+		printf("\nOp%c%co 7: Impress%co Labelled Bracketing",135,198,198);
+		printf("\nOp%c%co 0: Sair\n",135,198);
 		
+		printf("\nOp%c%co escolhida: ",135,198);
+		int opcao;
+		scanf("%d",&opcao);
+		printf("\n");
 		
-		emordem(raiz);
+		if (opcao == 1){
+			printf("Digite a quantidade de valores a ser inserido.\nEm seguida, insira os valores.\n\n");
+			scanf("%d",&n);
+			for(i=0;i<n;i++){
+				scanf("%d",&chave);
+				add(raiz,chave);
+			}
+		}
+		
+		if (opcao == 2){
+			
+		}
+		
+		if (opcao == 3){
+			
+		}
+		
+		if (opcao == 4){
+			preordem(raiz);
+		}
+		
+		if (opcao == 5){
+			emordem(raiz);
+		}
+		
+		if (opcao == 6){
+			posordem(raiz);
+		}
+		
+		if (opcao == 7){
+			labelledbracketing(raiz);
+		}
+		
+		if (opcao == 0){
+			
+		}
+
 	}
 	
 
