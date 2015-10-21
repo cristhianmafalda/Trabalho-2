@@ -55,6 +55,47 @@ struct arvore*search(struct arvore*no, int busca){
 	}
 }
 
+void removechave(struct arvore*no, int chave){
+	
+	struct arvore *p1 = no;
+	struct arvore *p2 = NULL;
+	
+	while(p1!=NULL && p1->key!=chave){
+		p2=p1;
+		if(chave>=p1->key){
+			p1=p1->dir;
+		}
+		else {
+			p1=p1->esq;
+		}
+	}
+	
+	if(p1==NULL) {
+		return;
+	}
+	
+	struct arvore*menormaior = p1->dir;
+	while(menormaior!=NULL && menormaior->esq!=NULL){
+			menormaior = menormaior->esq;
+	}
+	
+	struct arvore *temp;
+    if(menormaior!=NULL){
+        menormaior->esq = p1->esq;
+        temp = p1->dir;
+	} 
+	else {
+        temp = p1->esq;
+    }
+    if(chave>=p2->key) {
+        p2->esq = temp;
+    } 
+	else {
+        p2->dir = temp;
+    }
+    free(p1);
+}
+
 void emordem(struct arvore*no){					// em ordem é uma função que imprime os valores da arvore de maneira ordenada
 	if(no!=NULL){
 		emordem(no->esq);						//busca os menores para imprimir
@@ -100,7 +141,7 @@ int menu(){
 		printf("\nOp%c%co 6: Impress%co P%cs Ordem",135,198,198,162);
 		printf("\nOp%c%co 7: Impress%co Labelled Bracketing",135,198,198);
 		
-		printf("\nOp%c%co escolhida: ",135,198);
+		printf("\n\nOp%c%co escolhida: ",135,198);
 		int opcao;
 		scanf("%d",&opcao);
 		printf("\n");
@@ -137,14 +178,24 @@ void main () {
 			if (opcao == 1){
 				printf("Digite a quantidade de valores a ser inserido.\nEm seguida, insira os valores.\n\n");
 				scanf("%d",&n);
-				for(i=0;i<n;i++){
-					scanf("%d",&chave);
-					add(raiz,chave);
+				if(n>0){
+					for(i=0;i<n;i++){
+						scanf("%d",&chave);
+						add(raiz,chave);
+					}
 				}
+				else {
+					printf("\n\nQuantidade menor do que 1\nFavor reinicie o programa e insira uma quantidade coerente\n");
+					j=2;
+				}
+				printf ("\n\nValor(es) inserido(s)\n");
 			}
 			
 			if (opcao == 2){
-				
+				printf("\nDigite o valor a ser removido: ");
+				scanf("%d",&chave);
+				removechave(raiz,chave);
+				printf ("\n\nValor removido\n");
 			}
 			
 			if (opcao == 3){
@@ -153,7 +204,7 @@ void main () {
 				struct arvore *encontrado = search(raiz,chave);
 				if(encontrado!=NULL){
 					if(encontrado->key==chave){
-						printf("\nO valor %d exite nessa %crvore\n",chave,160);
+						printf("\nO valor %d existe nessa %crvore\n",chave,160);
 					}
 				}
 				else{
@@ -162,21 +213,25 @@ void main () {
 			}
 			
 			if (opcao == 4){
+				printf("\nImpress%co Pr%c Ordem: ",198,130);
 				preordem(raiz);
 				printf("\n");
 			}
 			
 			if (opcao == 5){
+				printf("\nImpress%co Em Ordem: ",198);
 				emordem(raiz);
 				printf("\n");
 			}
 			
 			if (opcao == 6){
+				printf("\nImpress%co P%cs Ordem: ",198,162);
 				posordem(raiz);
 				printf("\n");
 			}
 			
 			if (opcao == 7){
+				printf("\nImpress%co Labelled Bracketing: ",198);
 				labelledbracketing(raiz);
 				printf("\n");
 			}
@@ -184,8 +239,13 @@ void main () {
 			printf("\n\nDeseja continuar no programa %c    1-SIM  2-N%cO\n",63,199);
 			scanf("%d",&j);
 		}
-	printf("\nPROGRAMA ENCERRADO");
 	}
+	
+	else {
+		printf("\n\nQuantidade menor do que 1\nFavor reinicie o programa e insira uma quantidade coerente\n");
+	}
+	
+printf("\nPROGRAMA ENCERRADO");
 getch();	
 }
 
