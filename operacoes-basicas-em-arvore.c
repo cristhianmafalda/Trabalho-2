@@ -226,11 +226,16 @@ void main () {
 				scanf("%d",&chave);
 				if(chave!=raiz->key){
 					removechave(raiz,chave);
+					printf ("\n\nValor removido\n");
+				}
+				else if (raiz->dir == NULL && raiz->esq == NULL){
+					printf("\nTodos os valores foram removidos\nO programa deve ser reiniciado para continuar\n");
+					j=2;
 				}
 				else{
 					removeraiz(raiz);
+					printf ("\n\nValor removido\n");
 				}
-				printf ("\n\nValor removido\n");
 			}
 			
 			if (opcao == 3){
@@ -271,8 +276,10 @@ void main () {
 				printf("\n");
 			}
 			
-			printf("\n\nDeseja continuar no programa %c    1-SIM  2-N%cO\n",63,199);
-			scanf("%d",&j);
+			if(j!=2){
+				printf("\n\nDeseja continuar no programa %c    1-SIM  2-N%cO\n",63,199);
+				scanf("%d",&j);
+			}
 		}
 		apagatudo(raiz);
 	}
