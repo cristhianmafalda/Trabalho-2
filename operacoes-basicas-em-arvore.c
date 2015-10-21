@@ -78,7 +78,7 @@ void removechave(struct arvore*no, int chave){
 	while(menormaior!=NULL && menormaior->esq!=NULL){
 			menormaior = menormaior->esq;
 	}
-	
+		
 	struct arvore *temp;
     if(menormaior!=NULL){
         menormaior->esq = p1->esq;
@@ -88,10 +88,10 @@ void removechave(struct arvore*no, int chave){
         temp = p1->esq;
     }
     if(chave>=p2->key) {
-        p2->esq = temp;
+        p2->dir = temp;
     } 
 	else {
-        p2->dir = temp;
+        p2->esq = temp;
     }
     free(p1);
 }
