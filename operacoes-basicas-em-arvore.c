@@ -96,6 +96,28 @@ void removechave(struct arvore*no, int chave){
     free(p1);
 }
 
+void removeraiz(struct arvore*raiz){
+	
+	struct arvore*menormaior = raiz->dir;
+	while(menormaior!=NULL && menormaior->esq!=NULL){
+			menormaior = menormaior->esq;
+	}
+		
+	struct arvore *novaraiz;
+    if(menormaior!=NULL){
+        menormaior->esq = raiz->esq;
+        novaraiz = raiz->dir;
+	} 
+	else {
+        novaraiz = raiz->esq;
+    }
+    
+    raiz->key = novaraiz->key;
+    raiz->dir = novaraiz->dir;
+    raiz->esq = novaraiz->esq;
+    	
+}
+
 void emordem(struct arvore*no){					// em ordem é uma função que imprime os valores da arvore de maneira ordenada
 	if(no!=NULL){
 		emordem(no->esq);						//busca os menores para imprimir
@@ -128,6 +150,14 @@ void labelledbracketing(struct arvore*no){
 		labelledbracketing(no->dir);																
 	}
 	printf("]");
+}
+
+void apagatudo(struct arvore*no){
+	if(no!=NULL){	
+		apagatudo(no->esq);
+		apagatudo(no->dir);
+		free(no);																
+	}
 }
 
 int menu(){
@@ -194,7 +224,12 @@ void main () {
 			if (opcao == 2){
 				printf("\nDigite o valor a ser removido: ");
 				scanf("%d",&chave);
-				removechave(raiz,chave);
+				if(chave!=raiz->key){
+					removechave(raiz,chave);
+				}
+				else{
+					removeraiz(raiz);
+				}
 				printf ("\n\nValor removido\n");
 			}
 			
@@ -239,6 +274,7 @@ void main () {
 			printf("\n\nDeseja continuar no programa %c    1-SIM  2-N%cO\n",63,199);
 			scanf("%d",&j);
 		}
+		apagatudo(raiz);
 	}
 	
 	else {
@@ -248,5 +284,3 @@ void main () {
 printf("\nPROGRAMA ENCERRADO");
 getch();	
 }
-
-
