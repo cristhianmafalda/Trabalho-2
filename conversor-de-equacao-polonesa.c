@@ -21,7 +21,6 @@ void addsimbolo(struct simbolo*inicial, char caractere){
 		novo->caractere = caractere;
 		novo->prox = NULL;
 		inicial->prox = novo;
-		printf("\n\n\n\n\n\n\n\n%c\n\n\n\n\n\n",caractere);
 	}
 	
 	else{
