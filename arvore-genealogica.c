@@ -5,11 +5,14 @@
 struct pessoa
 {
 	int chave;
+	int geracao;
 	struct pessoa * esq;
 	struct pessoa * dir;
 };
 
 struct pessoa*buscado;
+
+int maxgen;
 
 void localiza(struct pessoa*no, int chave){
 
@@ -35,6 +38,31 @@ void labelledbracketing(struct pessoa*arvore,char nome[][50]){
 	if(arvore!=NULL){
         printf("]");
 	}
+}
+
+void preenchergeracao(struct pessoa*no,int geracao){
+
+    if(no!=NULL){
+        no->geracao=geracao;
+        if(geracao>maxgen){
+            maxgen = geracao;
+        }
+        preenchergeracao(no->esq,geracao+1);
+        preenchergeracao(no->dir,geracao+1);
+    }
+
+}
+
+void imprimegen(struct pessoa*no, int gen,char nome[][50]){
+
+    if(no!=NULL){
+        imprimegen(no->esq,gen,nome);
+        if(no->geracao==gen){
+            printf("%s ",nome[no->chave]);
+        }
+        imprimegen(no->dir,gen,nome);
+    }
+
 }
 
 void main () {
@@ -83,7 +111,15 @@ void main () {
 
     }
 
-    printf("\n\n");
+    maxgen = 0;
+    preenchergeracao(raiz,0);
+
+    for(i=0;i<=maxgen;i++){
+        printf("\n\nGen %d: ",i);
+        imprimegen(raiz,i,nome);
+    }
+
+    printf("\n\nLabelled Bracketing:  ");
     labelledbracketing(raiz,nome);
 
 
