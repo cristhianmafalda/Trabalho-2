@@ -4,89 +4,89 @@
 
 struct pessoa
 {
-	char*nome;
+	int chave;
 	struct pessoa * esq;
 	struct pessoa * dir;
 };
 
-struct pessoa*raiz;
+struct pessoa*buscado;
 
-struct pessoa*novo;
+void localiza(struct pessoa*no, int chave){
 
-void busca(struct pessoa*no, char*nomefilho){
-
-	if(no!=NULL && novo==NULL){
-
-		if(strcmp(nomefilho,no->nome)==0){
-			novo = no;
+    if(no!=NULL){
+		localiza(no->esq,chave);
+		localiza(no->dir,chave);
+		if(chave==no->chave){
+            buscado=no;
 		}
-		busca(no->esq,nomefilho);
-		busca(no->esq,nomefilho);
 	}
 
-}
+};
 
-
-void add(struct pessoa*no,char*nomefilho,char*nomepai,char*nomemae,int n){
-
-    struct pessoa *pai = (struct pessoa*)malloc(sizeof(struct pessoa));
-	struct pessoa *mae = (struct pessoa*)malloc(sizeof(struct pessoa));
-	pai->nome = nomepai;
-	pai->dir = NULL;
-	pai->esq = NULL;
-	mae->nome = nomemae;
-	mae->dir = NULL;
-	mae->esq = NULL;
-	no->esq = pai;
-	no->dir = mae;
-
-	n=n--;
-
-	if(n>0){
-
-        char novofilho[50],novopai[50],novomae[50];
-        novo=NULL;
-        scanf("%s %s %s",novofilho,novopai,novomae);
-        busca(raiz,novofilho);
-        add(novo,novofilho,novopai,novomae,n);
-
-
-	}
-
-
-}
-
-void labelledbracketing(struct pessoa*arvore){
-	printf("[");
+void labelledbracketing(struct pessoa*arvore,char nome[][50]){
 	if(arvore!=NULL){
-		printf("%s",arvore->nome);
-		labelledbracketing(arvore->esq);
-		labelledbracketing(arvore->dir);
+        printf("[");
 	}
-	printf("]");
+	if(arvore!=NULL){
+		printf("%s",nome[arvore->chave]);
+		labelledbracketing(arvore->esq,nome);
+		labelledbracketing(arvore->dir,nome);
+	}
+	if(arvore!=NULL){
+        printf("]");
+	}
 }
-
-
 
 void main () {
 
 	printf("Digite a quantidade inicial de valores a ser digitado.\nEm seguida, insira os valores.\n\n");
-	int n,i;
-	char nomefilho[50],nomepai[50],nomemae[50];
+	int n,i,k=-1,j=-1;
 
 	scanf("%d",&n);
 
-	if(n>0){
+    char nome[3*n][50];
 
-		struct pessoa*raiz = (struct pessoa*) malloc(sizeof(struct pessoa));
-		scanf("%s %s %s",nomefilho,nomepai,nomemae);
-		raiz->nome = nomefilho;
-		raiz->esq = NULL;
-		raiz->dir = NULL;
-
-		add(raiz,nomefilho,nomepai,nomemae,n);
-
-		labelledbracketing(raiz);
-
+	for (i=0; i<3*n; i++) {
+		scanf("%s",nome[i]);
 	}
+
+	struct pessoa *raiz = (struct pessoa*)malloc(sizeof(struct pessoa));
+	raiz->chave = 0;
+	raiz->dir = NULL;
+	raiz->esq = NULL;
+
+    for(i=0;i<3*n;i=i+3){
+
+        k=-1;
+        for (j=0;j<3*n;j++){
+
+            if(strcmp(nome[i],nome[j])==0){
+                k=j;
+                j=3*n;
+            }
+        }
+
+            buscado = NULL;
+            struct pessoa *novo = (struct pessoa*)malloc(sizeof(struct pessoa));
+            localiza(raiz,k);
+            novo = buscado;
+            struct pessoa *pai = (struct pessoa*)malloc(sizeof(struct pessoa));
+            struct pessoa *mae = (struct pessoa*)malloc(sizeof(struct pessoa));
+            novo->esq = pai;
+            novo->dir = mae;
+            pai->chave = i+1;
+            pai->dir = NULL;
+            pai->esq = NULL;
+            mae->chave = i+2;
+            mae->esq = NULL;
+            mae->dir = NULL;
+
+    }
+
+    printf("\n\n");
+    labelledbracketing(raiz,nome);
+
+
+    getch();
+
 }
