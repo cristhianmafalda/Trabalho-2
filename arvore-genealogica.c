@@ -12,6 +12,8 @@ struct pessoa
 
 struct pessoa*buscado;
 
+struct pessoa*buscado2;
+
 int maxgen;
 
 void localiza(struct pessoa*no, int chave){
@@ -21,6 +23,18 @@ void localiza(struct pessoa*no, int chave){
 		localiza(no->dir,chave);
 		if(chave==no->chave){
             buscado=no;
+		}
+	}
+
+};
+
+void localiza2(struct pessoa*no, int chave){
+
+    if(no!=NULL){
+		localiza2(no->esq,chave);
+		localiza2(no->dir,chave);
+		if(chave==no->chave){
+            buscado2=no;
 		}
 	}
 
@@ -131,8 +145,8 @@ void main () {
     maxgen = 0;
     preenchergeracao(raiz,0);
 
-    int opcao,fim = 1;
-    char antepassado[50];
+    int opcao,pos1,pos2,grau=0,fim = 1;
+    char antepassado[50],p1[50],p2[50];
 
     while(fim==1){
 
@@ -173,7 +187,40 @@ void main () {
         }
 
         if(opcao==4){
-
+            grau=0;
+            printf("\n\nDigite as pessoas para analisar o grau de parentesco:  ");
+            scanf("%s %s",p1,p2);
+            pos1=1;
+            for (j=0;j<3*n;j++){
+                if(strcmp(p1,nome[j])==0){
+                pos1=j;
+                j=3*n;
+                }
+            }
+            pos2=-1;
+            for (j=0;j<3*n;j++){
+                if(strcmp(p2,nome[j])==0){
+                pos2=j;
+                j=3*n;
+                }
+            }
+            buscado = NULL;
+            buscado2 = NULL;
+            localiza(raiz,pos1);
+            localiza2(buscado,pos2);
+            if(buscado2!=NULL){
+                grau = buscado2->geracao - buscado->geracao;
+            }
+            else{
+                buscado = NULL;
+                buscado2 = NULL;
+                localiza(raiz,pos2);
+                localiza2(buscado,pos1);
+                if(buscado2!=NULL){
+                    grau = buscado2->geracao - buscado->geracao;
+                }
+            }
+            printf("\n\nGrau de Parentesco: %d",grau);
         }
 
         if(fim!=2){
