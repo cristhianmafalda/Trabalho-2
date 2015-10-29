@@ -65,6 +65,23 @@ void imprimegen(struct pessoa*no, int gen,char nome[][50]){
 
 }
 
+int menu(){
+
+		printf("\nDigite o n%cmero da op%c%co que deseja realizar com sua %crvore geneal%cgica:",163,135,198,160,162);
+		printf("\nOp%c%co 1: Impress%co dos Membros por Gera%c%co",135,198,198,135,198);
+		printf("\nOp%c%co 2: Impress%co dos Antepassados de uma Pessoa",135,198,198);
+		printf("\nOp%c%co 3: Impress%co Labelled Bracketing",135,198,198);
+        printf("\nOp%c%co 4: C%clculo do Grau de Parentesco",135,198,160);
+
+		printf("\n\nOp%c%co escolhida: ",135,198);
+		int opcao;
+		scanf("%d",&opcao);
+		printf("\n");
+
+		return(opcao);
+
+}
+
 void main () {
 
 	printf("Digite a quantidade inicial de valores a ser digitado.\nEm seguida, insira os valores.\n\n");
@@ -114,15 +131,59 @@ void main () {
     maxgen = 0;
     preenchergeracao(raiz,0);
 
-    for(i=0;i<=maxgen;i++){
-        printf("\n\nGen %d: ",i);
-        imprimegen(raiz,i,nome);
+    int opcao,fim = 1;
+    char antepassado[50];
+
+    while(fim==1){
+
+        opcao = menu();
+
+        if(opcao==1){
+            for(i=0;i<=maxgen;i++){
+                printf("\n\nGen %d: ",i);
+                imprimegen(raiz,i,nome);
+            }
+        }
+
+        if(opcao==2){
+            printf("\n\nDigite a pessoa de quem deseja ver os antepassados:  ");
+            scanf("%s",antepassado);
+            k=-1;
+            for (j=0;j<3*n;j++){
+                if(strcmp(antepassado,nome[j])==0){
+                k=j;
+                j=3*n;
+                }
+            }
+            if(k!=-1){
+                buscado = NULL;
+                localiza(raiz,k);
+                for(i=buscado->geracao;i<=maxgen;i++){
+                    printf("\n\nGen %d: ",i);
+                    imprimegen(buscado,i,nome);
+                }
+            }
+
+
+        }
+
+        if(opcao==3){
+            printf("\n\nLabelled Bracketing:  ");
+            labelledbracketing(raiz,nome);
+        }
+
+        if(opcao==4){
+
+        }
+
+        if(fim!=2){
+				printf("\n\nDeseja continuar no programa %c    1-SIM  2-N%cO\n",63,199);
+				scanf("%d",&fim);
+			}
+
     }
 
-    printf("\n\nLabelled Bracketing:  ");
-    labelledbracketing(raiz,nome);
-
-
+    printf("\nPROGRAMA ENCERRADO");
     getch();
 
 }
