@@ -232,7 +232,7 @@ void main () {
                     grau = buscado2->geracao - buscado->geracao;
                 }
             }
-            printf("\n\nGrau de parentesco entre %s e %s: %d",p1,p2,grau);  //imprime o grau de parentesco
+            printf("\n\nentre %s e %s grau de parentesco %d",p1,p2,grau);  //imprime o grau de parentesco
         }
 
         if(opcao==5){               //opção para encerrar o programa

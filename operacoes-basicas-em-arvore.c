@@ -237,8 +237,9 @@ void main () {
 					printf ("\n\nValor removido\n");
 				}
 				else if (raiz->dir == NULL && raiz->esq == NULL){ //se o valor for a raiz, mas a arvore so possuir ela
-					printf("\nTodos os valores foram removidos\nO programa deve ser reiniciado para continuar\n");
-					j=2;
+					printf("\nTodos os valores foram removidos\nPara continuar, insira um novo valor\n");
+					scanf("%d",&chave);
+					raiz->key=chave;
 				}
 				else{ //em ultimo caso, removeraiz é chamada para retirar a raiz da arvore
 					removeraiz(raiz);
