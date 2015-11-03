@@ -34,9 +34,6 @@ void add(struct arvore*no, int chave){			//add é a função que adiciona um valor 
 	else {
 		origin->dir=valor;
 	}
-
-
-
 }
 
 struct arvore*search(struct arvore*no, int busca){      //funcao que recebe um valor e busca na arvore
@@ -115,7 +112,6 @@ void removeraiz(struct arvore*raiz){                    //quando o valor removid
     raiz->key = novaraiz->key;                          //mudamos as variaveis de raiz para ela receber a novaraiz e retornar para a arvore
     raiz->dir = novaraiz->dir;
     raiz->esq = novaraiz->esq;
-
 }
 
 void emordem(struct arvore*no){					// em ordem é uma função que imprime os valores da arvore de maneira ordenada
@@ -176,8 +172,8 @@ int menu(){ //funcao que abre o menu de opções e retorna a desejada
 
 		int opcao;
 		scanf("%d",&opcao); //le a opcao escolhida
-		while(opcao<1||opcao>8){
-            printf("\n\nEscolha uma op%c%co existente: ",135,198);
+		while(opcao<1||opcao>8){ //confere a coerencia e refaz se necessario
+            printf("\n\nEscolha uma op%c%co existente",135,198);
             printf("\n\nOp%c%co escolhida: ",135,198);
             scanf("%d",&opcao);
 		}
@@ -191,10 +187,10 @@ void main () {
 	int n,i,chave;
 	scanf("%d",&n); //le a quantidade inicial de valores da arvore
 
-	while(n<=0){
+	while(n<=0){//confere a coerencia e refaz se necessario
         printf("\nA quantidade inicial deve ser um inteiro maior que zero\n\n");
         printf("Digite a quantidade inicial de valores a ser digitado.\nEm seguida, insira os valores.\n\n");
-        scanf("%d",&n); //le a quantidade inicial de valores da arvore
+        scanf("%d",&n);
 	}
 
 	if(n>0){        //confere se o valor escolhido é coerente com o esperado
@@ -291,9 +287,11 @@ void main () {
 			if (opcao == 8){ //opcao para sair do programa
 				j=2;
 			}
+
+		printf("\n");
 		}
-		apagatudo(raiz); //antes do programa acabar, apaga a arvore
+		apagatudo(raiz);    //antes do programa acabar, apaga a arvore
 	}
-printf("\nPROGRAMA ENCERRADO"); //mensagem de encerramento
-getch();	//pausa para leitura da tela
+    printf("\nPROGRAMA ENCERRADO");
+    getch();	            //pausa para leitura da tela
 }
