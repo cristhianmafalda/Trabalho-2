@@ -1,0 +1,9 @@
+8
+filho pai mae
+pai vo1 vo2
+mae vo3 vo4
+vo2 bisavo1 bisavo2
+vo4 bisavo3 bisavo4
+vo1 bisavo5 bisavo6
+bisavo2 tataravo1 tataravo2
+bisavo4 tataravo3 tataravo4
