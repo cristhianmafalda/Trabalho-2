@@ -99,8 +99,8 @@ int menu(){ //funcao que abre o menu de opções e retorna a desejada
 
 void apagatudo(struct pessoa*no){               //funcao que libera toda a memoria alocada no programa
 	if(no!=NULL){
-		apagatudo(no->esq);                     //apaga os menores, se existirem
-		apagatudo(no->dir);                     //apaga os maiores, se existirem
+		apagatudo(no->esq);                     //apaga os nos da esquerda
+		apagatudo(no->dir);                     //apaga os nos da direita
 		free(no);								//apaga o no
 	}
 }
