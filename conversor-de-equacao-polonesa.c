@@ -101,7 +101,7 @@ void apagalista(struct simbolo*no){             //funcao que libera o espaço alo
 
 void main () {
 
-	printf("Digite a equacao\n\n");
+	printf("Digite a equa%c%co\n\n",135,198);
 
 	char c;
 	int i=0,j=1;
