@@ -1,115 +1,126 @@
 #include<stdio.h>
 #include<stdlib.h>
 
-struct simbolo				
+struct simbolo
 	{
-		char caractere;								
-		struct simbolo * prox;				
+		char caractere;
+		struct simbolo * prox;
 	};
-	
-struct arvore				
+
+struct arvore
 	{
-		char caractere;								
+		char caractere;
 		struct arvore * dir;
-		struct arvore * esq;				
+		struct arvore * esq;
 	};
-		
+
 void addsimbolo(struct simbolo*inicial, char caractere){
-	
+
 	if(inicial->prox==NULL){
 		struct simbolo*novo = (struct simbolo*)malloc(sizeof(struct simbolo));
 		novo->caractere = caractere;
 		novo->prox = NULL;
 		inicial->prox = novo;
 	}
-	
+
 	else{
 		addsimbolo(inicial->prox, caractere);
 	}
-	
+
 }
 
 struct simbolo * addnumero(struct simbolo*seguinte, char valor){
-		
+
 	struct simbolo*novo = (struct simbolo*)malloc(sizeof(struct simbolo));
 	novo->caractere = valor;
 	novo->prox = seguinte;
 	return(novo);
-		
+
 }
-	
+
 void fazerarvore(struct arvore*raiz, struct simbolo*operador, struct simbolo*numero){
-	
-	if(operador!=NULL && numero!=NULL){
+
+	if(operador==NULL || numero==NULL){
 		return;
 	}
-	
-	struct arvore*esquerda = (struct arvore*)malloc(sizeof(struct arvore));
+
+    struct arvore*esquerda = (struct arvore*)malloc(sizeof(struct arvore));
 	esquerda->caractere = operador->caractere;
 	esquerda->dir = NULL;
 	esquerda->esq = NULL;
 	struct arvore*direita = (struct arvore*)malloc(sizeof(struct arvore));
 	direita->caractere = numero->caractere;
 	direita->dir = NULL;
-	esquerda->esq = NULL;
-	
+	direita->esq = NULL;
+
 	raiz->esq = esquerda;
 	raiz->dir = direita;
-	
+
 	fazerarvore(direita,operador->prox,numero->prox);
-	
 }
-	
-void rpn(struct arvore*no){					
-	if(no!=NULL){
-		rpn(no->dir);						
-		printf("%c ",no->caractere);					
-		rpn(no->esq);						
+
+void labelledbracketing(struct arvore*no){	    //função que imprime a arvore em labelled bracketing
+	printf("[");                                //abre o no
+	if(no!=NULL){                               //confere se o nó possui chave
+		printf("%c",no->caractere);                   //imprime a chave
+		labelledbracketing(no->esq);            //recursivo para os menores
+		labelledbracketing(no->dir);		    //recursivo para os maiores
 	}
-}	
+	printf("]");                                //fecha o no
+}
+
+void rpn(struct arvore*no){
+	if(no!=NULL){
+		rpn(no->dir);
+		printf(" %c",no->caractere);
+		rpn(no->esq);
+	}
+}
 
 void imprime(struct arvore*no){
 	printf("%c",no->caractere);
 }
 
-void infixa(struct arvore*no){					
+void infixa(struct arvore*no){
+    if(no->dir==NULL &&no->esq==NULL){
+        imprime(no);
+    }
 	if(no->dir!=NULL){
 		printf("(");
 		infixa(no->dir);
-		imprime(no->dir);	
 		imprime(no->esq);
-		imprime(no);															
+		imprime(no);
 		printf(")");
 	}
 }
-	
+
 void imprimelista(struct simbolo*no){
-	
-	while(no!=NULL){
+
+	if(no!=NULL){
 		printf(" %c",no->caractere);
 		imprimelista(no->prox);
 	}
-	
-}	
-	
+
+}
+
 void main () {
-	
+
 	printf("Digite a equacao\n\n");
-	
+
 	char c;
 	int i=0,j=1;
-	
+
 	scanf("%c",&c);
-	
+
 	struct simbolo*firstc = (struct simbolo*)malloc(sizeof(struct simbolo));
 	firstc->caractere = c;
 	firstc->prox = NULL;
-	
-	while(i=0){
-		
+
+	while(i==0){
+
 		scanf("%c",&c);
-		
-		if(c=='+'||c=='-'||c=='/'||c=='*'||c==10||c==' '){
+
+		if(c=='+'||c=='-'||c=='/'||c=='*'||c==' '){
 			if(c=='+'||c=='-'||c=='/'||c=='*'){
 				addsimbolo(firstc,c);
 				j++;
@@ -120,35 +131,43 @@ void main () {
 		}
 
 	}
-	
+
 	struct simbolo*firstn = (struct simbolo*)malloc(sizeof(struct simbolo));
 	firstn->caractere = c;
 	firstn->prox = NULL;
 
-	
+
 	for (i=0;i<j;i++){
 		scanf("%c",&c);
-		firstn = addnumero(firstn,c);
+		if(c!=' '){
+            firstn = addnumero(firstn,c);
+		}
+		else {
+            i--;
+		}
 	}
-	
+
 	printf("\n\nCaracteres: ");
 	imprimelista(firstc);
 	printf("\n\nNumeros: ");
 	imprimelista(firstn);
-	
+
 	struct arvore*raiz = (struct arvore*)malloc(sizeof(struct arvore));
 	raiz->caractere = firstn->caractere;
 	raiz->esq = NULL;
 	raiz->dir = NULL;
-	
-	fazerarvore(raiz,firstc,firstn->prox);
-	
-	printf("\n\nRPN: ");
-	rpn(raiz);
-	
-	printf("\n\nINFIXA: ");
-	infixa(raiz);
 
-	
-	
+	fazerarvore(raiz,firstc,firstn->prox);
+
+    printf("\n\n");
+    labelledbracketing(raiz);
+
+    printf("\n\nRPN:");
+    rpn(raiz);
+
+    printf("\n\nInfixa:");
+    infixa(raiz);
+
+
 }
+
