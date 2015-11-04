@@ -1,7 +1,18 @@
-Aluno : Cristhian Mafalda
+Alunos : 
+
+1 - Cristhian Mafalda
 NºUSP: 9312877
-EESC-USP
 GitHub username: cristhianmafalda
+
+2 - Sarah Tatsuta Galassi
+NºUSP: 9311650
+GitHub username: sarahtgalassi
+
+3 - Fábio Assis de Campos Júnior
+NºUSP: 9312731
+GitHub username: fabioassisjr
+
+EESC-USP
 
 Trabalho 2 - LPA
 
